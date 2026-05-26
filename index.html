@@ -745,8 +745,8 @@
           var ox = cx + rp.rx * W;
           var oy = cy + rp.ry * H;
           for (var i = 0; i < 3; i++) {
-            var ph = ((el * 0.00043 + rp.phase + i / 3) % 1);
-            var r  = ph * Math.min(W, H) * 0.40;
+            var ph = (((el * 0.00043 + rp.phase + i / 3) % 1) + 1) % 1;
+            var r  = Math.max(0, ph * Math.min(W, H) * 0.40);
             var a  = (1 - ph) * (1 - ph) * 0.075;
             if (a < 0.003) continue;
             ctx.beginPath();
