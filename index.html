@@ -723,7 +723,7 @@
         ctx.fillRect(0, 0, W, H);
         for (var i = 0; i < 4; i++) {
           var ph = ((el * 0.00055 + i / 4) % 1);
-          var r  = ph * Math.min(W, H) * 0.42;
+          var r  = Math.max(0, ph * Math.min(W, H) * 0.42);
           var a  = (1 - ph) * 0.13;
           ctx.beginPath();
           ctx.arc(cx, cy, r, 0, Math.PI * 2);
