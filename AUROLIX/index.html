@@ -17,7 +17,7 @@
       --border: #1e1e1e;
       --border-soft: #151515;
       --silver: #c8c8c8;
-      --silver-dim: #888;
+      --silver-dim: #aaaaaa;
       --silver-ghost: #444;
       --silver-pale: #2a2a2a;
       --white: #f0f0f0;
@@ -746,7 +746,8 @@
           var oy = cy + rp.ry * H;
           for (var i = 0; i < 3; i++) {
             var ph = (((el * 0.00043 + rp.phase + i / 3) % 1) + 1) % 1;
-            var r  = Math.max(0, ph * Math.min(W, H) * 0.40);
+            var r  = Math.abs(ph * Math.min(W, H) * 0.40);
+            if (r < 0.5) continue;
             var a  = (1 - ph) * (1 - ph) * 0.075;
             if (a < 0.003) continue;
             ctx.beginPath();
@@ -814,8 +815,9 @@
           if (age <= 0) continue;
           var a   = r.a0 * (1 - age) * (1 - age);
           if (a < 0.003) continue;
+          var ringR = Math.max(0.5, age * r.maxR);
           ctx.beginPath();
-          ctx.arc(cx, cy, age * r.maxR, 0, Math.PI * 2);
+          ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
           ctx.strokeStyle = 'rgba(0,0,0,' + a.toFixed(3) + ')';
           ctx.lineWidth = Math.max(0.3, 2.5 - age * 2.2);
           ctx.stroke();

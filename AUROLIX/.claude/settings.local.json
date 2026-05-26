@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"c:\\\\Users\\\\sorat\\\\OneDrive\\\\AUROLIX\" status --short)",
+      "Bash(git -C \"c:\\\\Users\\\\sorat\\\\OneDrive\\\\AUROLIX\" add \"index.html\" \"AUROLIX/\")"
+    ]
+  }
+}
