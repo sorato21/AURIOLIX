@@ -39,22 +39,14 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: #f0f0f0;
+      background: #f2f2f2;
       overflow: hidden;
     }
-    #c-water {
+    #c-main {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-    #c-ink {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      filter: blur(12px) contrast(18);
+      top: 0;
+      left: 0;
+      display: block;
     }
     #l-wrap {
       position: absolute;
@@ -67,11 +59,12 @@
       opacity: 0;
       background: #080808;
       z-index: 10;
+      pointer-events: none;
     }
     #l-logo {
       width: clamp(180px, 44vw, 300px);
       height: auto;
-      filter: drop-shadow(0 0 14px rgba(200,200,200,0.12));
+      filter: drop-shadow(0 0 16px rgba(200,200,200,0.14));
     }
     #l-text {
       font-family: 'Cinzel', serif;
@@ -513,8 +506,7 @@
 
   <!-- LOADER -->
   <div id="loader">
-    <canvas id="c-water"></canvas>
-    <canvas id="c-ink"></canvas>
+    <canvas id="c-main"></canvas>
     <div id="l-wrap">
       <!-- 4-wing logo -->
       <svg id="l-logo" viewBox="0 0 380 268" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -675,215 +667,202 @@
   </footer>
 
   <script>
-    // LOADER — Canvas API: white water surface → ink drop → organic spread → logo
+    // LOADER v3 — single canvas, no CSS filter, bulletproof
     (function () {
-      const loader = document.getElementById('loader');
-      const cW     = document.getElementById('c-water');
-      const cI     = document.getElementById('c-ink');
-      const lWrap  = document.getElementById('l-wrap');
-      const lText  = document.getElementById('l-text');
-      const wX     = cW.getContext('2d');
-      const iX     = cI.getContext('2d');
+      var loader = document.getElementById('loader');
+      var canvas = document.getElementById('c-main');
+      var lWrap  = document.getElementById('l-wrap');
+      var lText  = document.getElementById('l-text');
 
-      /* ── sizing ── */
-      let W, H, cx, cy, maxR;
+      // Safety: dismiss loader after 9s no matter what
+      var bail = setTimeout(function () { loader.style.display = 'none'; }, 9000);
+
+      if (!canvas || !canvas.getContext) { clearTimeout(bail); loader.style.display = 'none'; return; }
+
+      var ctx = canvas.getContext('2d');
+      if (!ctx) { clearTimeout(bail); loader.style.display = 'none'; return; }
+
+      // ── sizing ──
+      var W, H, cx, cy, maxR;
       function resize() {
-        W = cW.width = cI.width   = window.innerWidth;
-        H = cW.height = cI.height = window.innerHeight;
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
         cx = W / 2; cy = H / 2;
-        maxR = Math.hypot(cx, cy) + 60;
+        maxR = Math.sqrt(cx * cx + cy * cy) + 80;
       }
       resize();
       window.addEventListener('resize', resize);
 
-      /* ── timing (ms from T0) ── */
-      const T_DROP  =  600;   // drop begins falling
-      const T_HIT   = 1400;   // impact moment
-      const T_INK   = 1700;   // ink spread begins
-      const T_INK_E = 3700;   // ink spread ends  (exactly 2 sec)
-      const T_LOGO  = 3950;   // logo fades in
-      const T_TEXT  = 4750;   // wordmark fades in
-      const T_DONE  = 6400;   // loader exits
+      // ── timing (ms) ──
+      var T_DROP  =  700;
+      var T_HIT   = 1500;
+      var T_INK   = 1500;   // ink starts at impact
+      var T_INK_E = 3500;   // 2 sec of ink
+      var T_LOGO  = 3750;
+      var T_TEXT  = 4550;
+      var T_DONE  = 6100;
 
-      /* ── value noise (hash-based, no dependency) ── */
-      function h(x, y) {
-        let n = ((x * 127 + y * 311) | 0) & 0xffff;
+      // ── value noise ──
+      function hash(x, y) {
+        var n = ((Math.floor(x) * 127 + Math.floor(y) * 311) | 0) & 0xffff;
         n = ((n ^ (n >> 5)) * 0x45d9f3b) & 0xffff;
         return n / 0xffff;
       }
       function vn(x, y) {
-        const xi = x | 0, yi = y | 0, xf = x - xi, yf = y - yi;
-        const s = t => t * t * (3 - 2 * t);
-        const L = (a, b, t) => a + (b - a) * t;
-        return L(L(h(xi, yi),   h(xi+1, yi),   s(xf)),
-                 L(h(xi, yi+1), h(xi+1, yi+1), s(xf)), s(yf));
+        var xi = Math.floor(x), yi = Math.floor(y);
+        var xf = x - xi, yf = y - yi;
+        var s = function(t) { return t * t * (3 - 2 * t); };
+        var L = function(a, b, t) { return a + (b - a) * t; };
+        return L(L(hash(xi, yi),   hash(xi+1, yi),   s(xf)),
+                 L(hash(xi, yi+1), hash(xi+1, yi+1), s(xf)), s(yf));
       }
 
-      /* ── Phase 1: water surface ripples ── */
+      // ── Phase 1: water ripples ──
       function drawWater(el) {
-        wX.fillStyle = '#f0f0f0';
-        wX.fillRect(0, 0, W, H);
-        for (let i = 0; i < 3; i++) {
-          const ph = ((el * 0.00055 + i / 3) % 1);
-          const r  = ph * Math.min(W, H) * 0.38;
-          const a  = (1 - ph) * 0.055;
-          wX.beginPath();
-          wX.arc(cx, cy, r, 0, Math.PI * 2);
-          wX.strokeStyle = `rgba(140,162,178,${a})`;
-          wX.lineWidth = 1.2;
-          wX.stroke();
+        ctx.fillStyle = '#f2f2f2';
+        ctx.fillRect(0, 0, W, H);
+        for (var i = 0; i < 4; i++) {
+          var ph = ((el * 0.00055 + i / 4) % 1);
+          var r  = ph * Math.min(W, H) * 0.42;
+          var a  = (1 - ph) * 0.13;
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(148,165,182,' + a.toFixed(3) + ')';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
         }
       }
 
-      /* ── Phase 2: teardrop falling ── */
-      function drawDrop(y, alpha) {
-        if (alpha <= 0) return;
-        wX.save();
-        wX.globalAlpha = alpha;
-        const dr = 10, dh = 24;
-        wX.fillStyle = '#080808';
-        wX.beginPath();
-        wX.moveTo(cx, y - dh);
-        wX.bezierCurveTo(cx + dr * 1.1, y - dh * 0.5, cx + dr, y - 2, cx, y + dr);
-        wX.bezierCurveTo(cx - dr, y - 2, cx - dr * 1.1, y - dh * 0.5, cx, y - dh);
-        wX.fill();
-        wX.fillStyle = 'rgba(255,255,255,0.22)';
-        wX.beginPath();
-        wX.ellipse(cx - 3, y - dh * 0.6, 2.2, 4.5, -0.3, 0, Math.PI * 2);
-        wX.fill();
-        wX.restore();
+      // ── Phase 2: ink drop ──
+      function drawDrop(el) {
+        var t  = Math.min((el - T_DROP) / (T_HIT - T_DROP), 1);
+        var y  = cy - (cy + 60) * (1 - t * t);   // gravity ease-in from top
+        var da = t < 0.94 ? 1 : (1 - (t - 0.94) / 0.06);
+        if (da <= 0) return;
+        ctx.save();
+        ctx.globalAlpha = da;
+        var dr = 11, dh = 27;
+        ctx.fillStyle = '#080808';
+        ctx.beginPath();
+        ctx.moveTo(cx, y - dh);
+        ctx.bezierCurveTo(cx + dr*1.1, y - dh*0.48, cx + dr, y - 2, cx, y + dr);
+        ctx.bezierCurveTo(cx - dr,     y - 2,        cx - dr*1.1, y - dh*0.48, cx, y - dh);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,0.26)';
+        ctx.beginPath();
+        ctx.ellipse(cx - 3.5, y - dh * 0.57, 2.5, 5.5, -0.3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
       }
 
-      /* ── Phase 3: impact ripple rings ── */
-      const rings = [];
-      let impacted = false;
+      // ── Phase 3: impact rings ──
+      var rings = [], impacted = false;
       function triggerImpact(now) {
         if (impacted) return;
         impacted = true;
-        for (let i = 0; i < 5; i++)
-          rings.push({ born: now, maxR: 28 + i * 28, a0: 0.52 - i * 0.08 });
+        for (var i = 0; i < 6; i++)
+          rings.push({ born: now, maxR: 22 + i * 30, a0: 0.55 - i * 0.07 });
       }
       function drawRings(now) {
-        rings.forEach(r => {
-          const age = Math.min((now - r.born) / 1200, 1);
-          const a   = r.a0 * Math.pow(1 - age, 2);
-          if (a < 0.003) return;
-          wX.beginPath();
-          wX.arc(cx, cy, age * r.maxR, 0, Math.PI * 2);
-          wX.strokeStyle = `rgba(0,0,0,${a.toFixed(3)})`;
-          wX.lineWidth = Math.max(0.3, 1.8 - age * 1.5);
-          wX.stroke();
-        });
+        for (var i = 0; i < rings.length; i++) {
+          var r   = rings[i];
+          var age = Math.min((now - r.born) / 1300, 1);
+          var a   = r.a0 * (1 - age) * (1 - age);
+          if (a < 0.003) continue;
+          ctx.beginPath();
+          ctx.arc(cx, cy, age * r.maxR, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(0,0,0,' + a.toFixed(3) + ')';
+          ctx.lineWidth = Math.max(0.4, 2 - age * 1.6);
+          ctx.stroke();
+        }
       }
 
-      /* ── Phase 4: organic ink spread (on filtered canvas) ── */
-      let inkT0 = null;
-      const sats = [];   // satellite blobs
-
+      // ── Phase 4: organic ink spread ──
+      var inkT0 = null, sats = [];
       function drawInk(now) {
         if (!inkT0) inkT0 = now;
-        const t = Math.min((now - inkT0) / (T_INK_E - T_INK), 1);
-        const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-        const bR = e * maxR;
+        var t  = Math.min((now - inkT0) / (T_INK_E - T_INK), 1);
+        var e  = t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+        var bR = e * maxR;
 
-        iX.fillStyle = '#f0f0f0';
-        iX.fillRect(0, 0, W, H);
-        iX.fillStyle = '#080808';
+        ctx.fillStyle = '#f2f2f2';
+        ctx.fillRect(0, 0, W, H);
 
-        /* satellite blobs — spawn near ink front, create tendril look */
-        if (t < 0.92 && Math.random() < 0.20) {
-          const ang = Math.random() * Math.PI * 2;
-          const d   = bR * (0.42 + Math.random() * 0.68);
-          sats.push({
-            x: cx + Math.cos(ang) * d,
-            y: cy + Math.sin(ang) * d,
-            born: now,
-            spd: 18 + Math.random() * 32,
-            max: 8 + Math.random() * 24
-          });
+        // draw remaining rings on top of white background
+        if (impacted) drawRings(now);
+
+        ctx.fillStyle = '#080808';
+
+        // satellite blobs at ink front → tendril look
+        if (t < 0.93 && Math.random() < 0.22) {
+          var ang = Math.random() * Math.PI * 2;
+          var d   = bR * (0.36 + Math.random() * 0.74);
+          sats.push({ x: cx + Math.cos(ang)*d, y: cy + Math.sin(ang)*d,
+                      born: now, spd: 22 + Math.random()*38, max: 10 + Math.random()*28 });
         }
-        /* remove blobs absorbed by main body */
-        for (let i = sats.length - 1; i >= 0; i--)
-          if (Math.hypot(sats[i].x - cx, sats[i].y - cy) < bR - sats[i].max * 1.2)
-            sats.splice(i, 1);
-        sats.forEach(s => {
-          const r = Math.min(s.max, (now - s.born) * 0.001 * s.spd);
-          iX.beginPath();
-          iX.arc(s.x, s.y, r, 0, Math.PI * 2);
-          iX.fill();
-        });
-
-        /* main noise-distorted blob — edges grow organically via value noise */
-        const SEG = 96, FRQ = 4.2, AMP = 0.17;
-        iX.beginPath();
-        for (let i = 0; i <= SEG; i++) {
-          const a  = (i / SEG) * Math.PI * 2;
-          const n  = vn(Math.cos(a) * FRQ + t * 2.6, Math.sin(a) * FRQ + t * 2.6);
-          const r  = bR * (1 + (n * 2 - 1) * AMP * (1 - e * 0.8));
-          const px = cx + Math.cos(a) * r;
-          const py = cy + Math.sin(a) * r;
-          i === 0 ? iX.moveTo(px, py) : iX.lineTo(px, py);
+        for (var i = sats.length - 1; i >= 0; i--) {
+          var s = sats[i];
+          var dd = Math.sqrt((s.x-cx)*(s.x-cx) + (s.y-cy)*(s.y-cy));
+          if (dd < bR - s.max) { sats.splice(i, 1); continue; }
+          var sr = Math.min(s.max, (now - s.born) * 0.001 * s.spd);
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, sr, 0, Math.PI * 2);
+          ctx.fill();
         }
-        iX.closePath();
-        iX.fill();
+
+        // main noise-distorted blob
+        var SEG = 80, FRQ = 4.0, AMP = 0.18;
+        ctx.beginPath();
+        for (var i = 0; i <= SEG; i++) {
+          var a  = (i / SEG) * Math.PI * 2;
+          var n  = vn(Math.cos(a)*FRQ + t*2.5, Math.sin(a)*FRQ + t*2.5);
+          var r  = bR * (1 + (n*2 - 1) * AMP * (1 - e*0.75));
+          var px = cx + Math.cos(a) * r;
+          var py = cy + Math.sin(a) * r;
+          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
       }
 
-      /* ── main animation loop ── */
-      let go = true, logoShown = false, textShown = false;
-      const T0 = performance.now();
+      // ── main loop ──
+      var go = true, logoShown = false, textShown = false;
+      var T0 = performance.now();
 
       function loop(now) {
         if (!go) return;
-        const el = now - T0;
+        var el = now - T0;
 
-        /* water canvas */
-        wX.clearRect(0, 0, W, H);
-        if (el < T_INK_E) drawWater(el);
+        ctx.clearRect(0, 0, W, H);
 
-        /* drop */
-        if (el >= T_DROP && el < T_HIT + 200) {
-          const t  = Math.min((el - T_DROP) / (T_HIT - T_DROP), 1);
-          const dy = cy - (cy + 50) * (1 - t * t);   // gravity ease-in
-          const da = t < 0.94 ? 1 : 1 - (t - 0.94) / 0.06;
-          drawDrop(dy, da);
-        }
-
-        /* impact rings */
-        if (el >= T_HIT) { triggerImpact(now); drawRings(now); }
-
-        /* fade water canvas as ink takes over */
-        if (el > T_INK + 200) {
-          const wa = Math.max(0, 1 - (el - T_INK - 200) / 700);
-          cW.style.opacity = wa.toFixed(3);
-        }
-
-        /* ink canvas */
-        if (el >= T_INK) {
-          if (cI.style.opacity !== '1') cI.style.opacity = '1';
+        if (el < T_INK) {
+          // water phase
+          drawWater(el);
+          if (el >= T_DROP) drawDrop(el);
+          if (el >= T_HIT) { triggerImpact(now); drawRings(now); }
+        } else {
+          // ink phase — triggers impact on first frame if not yet triggered
+          triggerImpact(now);
           drawInk(now);
         }
 
-        /* logo reveal */
         if (el >= T_LOGO && !logoShown) {
           logoShown = true;
           lWrap.style.transition = 'opacity 1.4s ease';
           lWrap.style.opacity = '1';
         }
-
-        /* wordmark */
         if (el >= T_TEXT && !textShown) {
           textShown = true;
           lText.style.transition = 'opacity 1.2s ease, transform 1.2s ease';
           lText.style.opacity = '1';
           lText.style.transform = 'translateY(0)';
         }
-
-        /* exit */
         if (el >= T_DONE) {
           go = false;
+          clearTimeout(bail);
           loader.style.transition = 'opacity 0.9s ease';
           loader.style.opacity = '0';
-          setTimeout(() => { loader.style.display = 'none'; }, 900);
+          setTimeout(function () { loader.style.display = 'none'; }, 900);
           return;
         }
 
