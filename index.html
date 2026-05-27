@@ -70,9 +70,27 @@
 
     nav {
       display: flex;
-      justify-content: center;
-      gap: 80px;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
       padding: 28px 8vw;
+    }
+
+    .nav-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: var(--silver);
+    }
+
+    .nav-brand:hover {
+      color: var(--silver);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 60px;
     }
 
     nav a {
@@ -234,8 +252,17 @@
       }
 
       nav {
-        gap: 32px;
+        gap: 16px;
         padding: 20px 6vw;
+      }
+
+      .nav-brand {
+        font-size: 13px;
+        letter-spacing: 0.25em;
+      }
+
+      .nav-links {
+        gap: 20px;
       }
 
       nav a {
@@ -285,9 +312,12 @@
   <!-- NAVIGATION -->
   <header>
     <nav>
-      <a href="#collection">COLLECTION</a>
-      <a href="#about">ABOUT</a>
-      <a href="#contact">CONTACT</a>
+      <a href="#hero" class="nav-brand">AUROLIX</a>
+      <div class="nav-links">
+        <a href="#collection">COLLECTION</a>
+        <a href="#about">ABOUT</a>
+        <a href="#contact">CONTACT</a>
+      </div>
     </nav>
   </header>
 
