@@ -589,5 +589,54 @@
     })();
   </script>
 
+  <!-- SCROLL FADE-IN (IntersectionObserver) -->
+  <script>
+    (function () {
+      const selectors = [
+        '#about h2',
+        '.about-words',
+        '#collection h2',
+        '.product',
+        '#contact h2',
+        '.contact-links',
+        'footer p'
+      ];
+
+      const targets = [];
+      selectors.forEach(function (sel) {
+        document.querySelectorAll(sel).forEach(function (el) {
+          targets.push(el);
+        });
+      });
+
+      if (targets.length === 0 || !('IntersectionObserver' in window)) return;
+
+      // Set initial hidden state via inline styles
+      targets.forEach(function (el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        el.style.willChange = 'opacity, transform';
+      });
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      targets.forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+
 </body>
 </html>
