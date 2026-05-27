@@ -301,6 +301,81 @@
       overflow: hidden;
     }
   </style>
+
+  <!-- HAMBURGER & MOBILE MENU STYLES (additive) -->
+  <style>
+    .hamburger {
+      display: none;
+      background: transparent;
+      border: 0;
+      padding: 6px 4px;
+      width: 36px;
+      height: 32px;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 5px;
+      position: relative;
+      z-index: 2;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--silver);
+      transition: transform 0.35s ease, opacity 0.25s ease, width 0.3s ease;
+    }
+    .hamburger span:nth-child(2) { width: 18px; }
+    .hamburger.active span { width: 24px; }
+    .hamburger.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 56px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s ease;
+    }
+    .mobile-menu.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-menu-link {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(22px, 6vw, 32px);
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      color: var(--silver);
+      text-decoration: none;
+      transform: translateY(24px);
+      opacity: 0;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+    .mobile-menu.active .mobile-menu-link {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .mobile-menu.active .mobile-menu-link:nth-child(1) { transition-delay: 0.18s; }
+    .mobile-menu.active .mobile-menu-link:nth-child(2) { transition-delay: 0.28s; }
+    .mobile-menu.active .mobile-menu-link:nth-child(3) { transition-delay: 0.38s; }
+
+    body.menu-open { overflow: hidden; }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
 <body class="loader-active">
 
@@ -318,8 +393,20 @@
         <a href="#about">ABOUT</a>
         <a href="#contact">CONTACT</a>
       </div>
+      <button id="hamburger" class="hamburger" type="button" aria-label="Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </nav>
   </header>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <a href="#collection" class="mobile-menu-link">COLLECTION</a>
+    <a href="#about" class="mobile-menu-link">ABOUT</a>
+    <a href="#contact" class="mobile-menu-link">CONTACT</a>
+  </div>
 
   <!-- HERO -->
   <section id="hero">
@@ -664,6 +751,45 @@
 
       targets.forEach(function (el) {
         observer.observe(el);
+      });
+    })();
+  </script>
+
+  <!-- HAMBURGER MENU TOGGLE -->
+  <script>
+    (function () {
+      const hamburger = document.getElementById('hamburger');
+      const menu = document.getElementById('mobile-menu');
+      if (!hamburger || !menu) return;
+
+      function openMenu() {
+        hamburger.classList.add('active');
+        menu.classList.add('active');
+        document.body.classList.add('menu-open');
+        hamburger.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeMenu() {
+        hamburger.classList.remove('active');
+        menu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+      }
+
+      function toggleMenu() {
+        if (hamburger.classList.contains('active')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      }
+
+      hamburger.addEventListener('click', toggleMenu);
+
+      menu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
       });
     })();
   </script>
