@@ -4,972 +4,590 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AUROLIX</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --black: #080808;
-      --black-2: #0d0d0d;
-      --black-3: #111;
-      --border: #1e1e1e;
-      --border-soft: #151515;
       --silver: #c8c8c8;
       --silver-dim: #888;
       --silver-ghost: #444;
-      --silver-pale: #2a2a2a;
-      --white: #f0f0f0;
+      --border: #1e1e1e;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       background: var(--black);
-      color: var(--silver-dim);
+      color: var(--silver);
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
+      font-size: 16px;
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* ─── LOADER ─── */
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.3s ease, color 0.3s ease;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+    }
+
+    section {
+      padding: 160px 8vw;
+    }
+
+    /* ─── NAVIGATION ─── */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(8, 8, 8, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      padding: 28px 8vw;
+    }
+
+    nav a {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      color: var(--silver-dim);
+    }
+
+    nav a:hover {
+      color: var(--silver);
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 8vw;
+      position: relative;
+    }
+
+    #hero h1 {
+      font-size: clamp(64px, 12vw, 180px);
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      color: var(--silver);
+      text-align: center;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    #about h2 {
+      font-size: 14px;
+      letter-spacing: 0.4em;
+      color: var(--silver-dim);
+      margin-bottom: 80px;
+    }
+
+    .about-words {
+      display: flex;
+      justify-content: center;
+      gap: clamp(40px, 8vw, 120px);
+      flex-wrap: wrap;
+    }
+
+    .about-words span {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(20px, 2.5vw, 32px);
+      letter-spacing: 0.3em;
+      color: var(--silver);
+    }
+
+    /* ─── COLLECTION ─── */
+    #collection {
+      border-top: 1px solid var(--border);
+    }
+
+    #collection h2 {
+      font-size: 14px;
+      letter-spacing: 0.4em;
+      color: var(--silver-dim);
+      text-align: center;
+      margin-bottom: 100px;
+    }
+
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .product {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-image {
+      aspect-ratio: 3 / 4;
+      background: #0d0d0d;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .product-name {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      color: var(--silver);
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      font-size: 14px;
+      color: var(--silver-dim);
+      font-style: italic;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    #contact h2 {
+      font-size: 14px;
+      letter-spacing: 0.4em;
+      color: var(--silver-dim);
+      margin-bottom: 80px;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 0.3em;
+      color: var(--silver);
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--silver-ghost);
+    }
+
+    .contact-links a:hover {
+      color: var(--silver);
+      border-bottom-color: var(--silver);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 8vw;
+      text-align: center;
+    }
+
+    footer p {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--silver-ghost);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      section {
+        padding: 100px 6vw;
+      }
+
+      nav {
+        gap: 32px;
+        padding: 20px 6vw;
+      }
+
+      nav a {
+        font-size: 10px;
+        letter-spacing: 0.2em;
+      }
+
+      .collection-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .contact-links {
+        flex-direction: column;
+        gap: 32px;
+      }
+    }
+  </style>
+
+  <!-- LOADER STYLES (additive) -->
+  <style>
     #loader {
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: #f2f2f2;
+      background: #f0f0f0;
       overflow: hidden;
     }
-    #c-main {
+    #loader-canvas {
       position: absolute;
       top: 0;
       left: 0;
       display: block;
     }
-    #l-wrap {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      opacity: 0;
-      background: #080808;
-      z-index: 10;
-      pointer-events: none;
-    }
-    #l-logo {
-      width: clamp(180px, 44vw, 300px);
-      height: auto;
-      filter: drop-shadow(0 0 16px rgba(200,200,200,0.14));
-    }
-    #l-text {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(16px, 4.5vw, 26px);
-      letter-spacing: 14px;
-      color: #c8c8c8;
-      opacity: 0;
-      transform: translateY(12px);
-    }
-
-    /* ─── NAV ─── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 40px;
-      border-bottom: 0.5px solid var(--border);
-      background: rgba(8,8,8,0.92);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    .nav-logo {
-      font-family: 'Cinzel', serif;
-      font-size: 13px;
-      letter-spacing: 7px;
-      color: var(--silver);
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 9px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--silver-ghost);
-      text-decoration: none;
-      transition: color 0.3s;
-      font-family: 'Cinzel', serif;
-    }
-    .nav-links a:hover { color: var(--silver); }
-
-    /* hamburger for mobile */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-    }
-    .hamburger span {
-      display: block;
-      width: 22px;
-      height: 0.5px;
-      background: var(--silver-dim);
-      transition: all 0.3s;
-    }
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      top: 61px;
-      background: rgba(8,8,8,0.97);
-      z-index: 99;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: 'Cinzel', serif;
-      font-size: 14px;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      color: var(--silver-dim);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .mobile-menu a:hover { color: var(--silver); }
-
-    @media (max-width: 640px) {
-      nav { padding: 18px 24px; }
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-    }
-
-    /* ─── HERO ─── */
-    #hero {
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      position: relative;
-      border-bottom: 0.5px solid var(--border);
+    body.loader-active {
       overflow: hidden;
-    }
-    .hero-noise {
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.4;
-      pointer-events: none;
-    }
-    .hero-eyebrow {
-      font-size: 9px;
-      letter-spacing: 6px;
-      color: var(--silver-ghost);
-      text-transform: uppercase;
-      font-family: 'Cinzel', serif;
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: riseUp 0.8s ease forwards 2.2s;
-    }
-    .hero-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(36px, 10vw, 80px);
-      font-weight: 700;
-      letter-spacing: clamp(8px, 2vw, 16px);
-      color: var(--silver);
-      line-height: 1;
-      margin-bottom: 12px;
-      opacity: 0;
-      animation: riseUp 0.8s ease forwards 2.4s;
-    }
-    .hero-sub {
-      font-size: clamp(11px, 2vw, 13px);
-      letter-spacing: 5px;
-      color: var(--silver-ghost);
-      text-transform: uppercase;
-      font-family: 'Cinzel', serif;
-      margin-bottom: 40px;
-      opacity: 0;
-      animation: riseUp 0.8s ease forwards 2.6s;
-    }
-    .hero-line {
-      width: 0.5px;
-      height: 48px;
-      background: linear-gradient(to bottom, transparent, var(--silver-ghost), transparent);
-      margin: 0 auto 40px;
-      opacity: 0;
-      animation: riseUp 0.8s ease forwards 2.7s;
-    }
-    .hero-tagline {
-      font-size: clamp(14px, 3vw, 18px);
-      font-style: italic;
-      color: #666;
-      letter-spacing: 1px;
-      margin-bottom: 48px;
-      opacity: 0;
-      animation: riseUp 0.8s ease forwards 2.8s;
-    }
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-      opacity: 0;
-      animation: riseUp 0.8s ease forwards 3s;
-    }
-    @keyframes riseUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .btn {
-      font-family: 'Cinzel', serif;
-      font-size: 9px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      padding: 13px 32px;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn-outline {
-      border: 0.5px solid var(--silver-dim);
-      color: var(--silver);
-      background: transparent;
-    }
-    .btn-outline:hover {
-      background: var(--silver);
-      color: var(--black);
-    }
-    .btn-ghost {
-      border: 0.5px solid var(--border);
-      color: var(--silver-ghost);
-      background: transparent;
-    }
-    .btn-ghost:hover {
-      border-color: var(--silver-ghost);
-      color: var(--silver-dim);
-    }
-
-    /* ─── SECTIONS ─── */
-    section {
-      padding: 80px 40px;
-      border-bottom: 0.5px solid var(--border);
-    }
-    @media (max-width: 640px) {
-      section { padding: 64px 24px; }
-    }
-    .section-label {
-      font-family: 'Cinzel', serif;
-      font-size: 8px;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      color: var(--silver-ghost);
-      text-align: center;
-      margin-bottom: 48px;
-      position: relative;
-    }
-    .section-label::before,
-    .section-label::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 40px;
-      height: 0.5px;
-      background: var(--border);
-    }
-    .section-label::before { right: calc(50% + 60px); }
-    .section-label::after  { left:  calc(50% + 60px); }
-
-    /* ─── ABOUT ─── */
-    #about .about-inner {
-      max-width: 560px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .about-body {
-      font-size: clamp(15px, 2.5vw, 18px);
-      line-height: 2;
-      color: #666;
-      font-style: italic;
-      margin-bottom: 32px;
-    }
-    .about-body strong {
-      font-style: normal;
-      font-weight: 400;
-      color: #aaa;
-      letter-spacing: 1px;
-    }
-    .about-values {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
-    .value-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .value-dot {
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: var(--silver-ghost);
-    }
-    .value-text {
-      font-family: 'Cinzel', serif;
-      font-size: 8px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--silver-ghost);
-    }
-
-    /* ─── COLLECTION ─── */
-    #collection { padding-left: 0; padding-right: 0; padding-bottom: 0; }
-    #collection .section-label { padding: 0 40px; }
-    @media (max-width: 640px) {
-      #collection .section-label { padding: 0 24px; }
-    }
-    .collection-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border-soft);
-    }
-    @media (max-width: 480px) {
-      .collection-grid { grid-template-columns: 1fr 1fr; }
-      .collection-item:last-child { display: none; }
-    }
-    .collection-item {
-      background: var(--black-2);
-      aspect-ratio: 2/3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: background 0.4s;
-    }
-    .collection-item:hover { background: #101010; }
-    .collection-item:hover .item-overlay { opacity: 1; }
-    .item-overlay {
-      position: absolute;
-      inset: 0;
-      border: 0.5px solid var(--silver-pale);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-    .item-num {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      font-family: 'Cinzel', serif;
-      font-size: 9px;
-      letter-spacing: 2px;
-      color: var(--silver-pale);
-    }
-    .item-icon {
-      width: 48px;
-      height: 48px;
-      border: 0.5px solid var(--silver-pale);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-    .item-icon svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--silver-pale);
-      fill: none;
-      stroke-width: 1;
-    }
-    .item-name {
-      font-family: 'Cinzel', serif;
-      font-size: 8px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #2e2e2e;
-    }
-    .item-coming {
-      position: absolute;
-      bottom: 16px;
-      right: 16px;
-      font-family: 'Cinzel', serif;
-      font-size: 7px;
-      letter-spacing: 2px;
-      color: var(--silver-pale);
-      text-transform: uppercase;
-    }
-
-    /* ─── CONTACT ─── */
-    #contact .contact-inner {
-      max-width: 400px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .contact-tagline {
-      font-size: clamp(13px, 2.5vw, 16px);
-      font-style: italic;
-      color: #555;
-      margin-bottom: 40px;
-      line-height: 1.8;
-    }
-    .social-row {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    .social-link {
-      font-family: 'Cinzel', serif;
-      font-size: 9px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--silver-ghost);
-      text-decoration: none;
-      transition: color 0.3s;
-      position: relative;
-      padding-bottom: 4px;
-    }
-    .social-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 0.5px;
-      background: var(--silver-ghost);
-      transform: scaleX(0);
-      transition: transform 0.3s;
-    }
-    .social-link:hover { color: var(--silver-dim); }
-    .social-link:hover::after { transform: scaleX(1); }
-
-    /* ─── FOOTER ─── */
-    footer {
-      padding: 24px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    @media (max-width: 640px) {
-      footer { padding: 24px; flex-direction: column; text-align: center; }
-    }
-    .footer-copy {
-      font-family: 'Cinzel', serif;
-      font-size: 8px;
-      letter-spacing: 2px;
-      color: var(--silver-pale);
-    }
-    .footer-mark {
-      font-family: 'Cinzel', serif;
-      font-size: 10px;
-      letter-spacing: 3px;
-      color: var(--silver-pale);
-    }
-
-    /* ─── SCROLL REVEAL ─── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
   </style>
 </head>
-<body>
+<body class="loader-active">
 
   <!-- LOADER -->
   <div id="loader">
-    <canvas id="c-main"></canvas>
-    <div id="l-wrap">
-      <!-- 4-wing logo -->
-      <svg id="l-logo" viewBox="0 0 380 268" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Upper-left wing: 3 layered feather shapes -->
-        <path d="M163,118 C132,104 88,85 44,66 C22,57 6,50 1,45 C18,56 52,73 96,91 C132,106 162,119 164,122Z" fill="#c0c0c0" opacity="0.88"/>
-        <path d="M163,115 C128,97 80,75 30,52 C8,42 -3,35 -5,30 C14,43 50,62 96,85 C133,103 163,116 164,119Z" fill="#a0a0a0" opacity="0.65"/>
-        <path d="M163,112 C124,91 72,66 18,40 C-3,30 -14,22 -17,17 C6,32 46,54 96,79 C133,99 163,113 164,116Z" fill="#787878" opacity="0.42"/>
-        <line x1="163" y1="118" x2="22" y2="57" stroke="#d0d0d0" stroke-width="0.5" opacity="0.38"/>
-        <line x1="163" y1="115" x2="12" y2="44" stroke="#c0c0c0" stroke-width="0.4" opacity="0.26"/>
-        <!-- Upper-right wing (mirror) -->
-        <path d="M217,118 C248,104 292,85 336,66 C358,57 374,50 379,45 C362,56 328,73 284,91 C248,106 218,119 216,122Z" fill="#c0c0c0" opacity="0.88"/>
-        <path d="M217,115 C252,97 300,75 350,52 C372,42 383,35 385,30 C366,43 330,62 284,85 C247,103 217,116 216,119Z" fill="#a0a0a0" opacity="0.65"/>
-        <path d="M217,112 C256,91 308,66 362,40 C383,30 394,22 397,17 C374,32 334,54 284,79 C247,99 217,113 216,116Z" fill="#787878" opacity="0.42"/>
-        <line x1="217" y1="118" x2="358" y2="57" stroke="#d0d0d0" stroke-width="0.5" opacity="0.38"/>
-        <line x1="217" y1="115" x2="368" y2="44" stroke="#c0c0c0" stroke-width="0.4" opacity="0.26"/>
-        <!-- Lower-left wing -->
-        <path d="M163,144 C136,157 101,171 64,182 C40,190 23,195 16,198 C33,190 62,178 100,165 C132,153 162,143 164,140Z" fill="#b0b0b0" opacity="0.70"/>
-        <path d="M163,147 C132,163 92,180 50,194 C24,203 7,209 2,213 C22,202 56,188 98,173 C132,160 162,146 164,143Z" fill="#888" opacity="0.42"/>
-        <line x1="163" y1="144" x2="25" y2="192" stroke="#c0c0c0" stroke-width="0.4" opacity="0.32"/>
-        <!-- Lower-right wing (mirror) -->
-        <path d="M217,144 C244,157 279,171 316,182 C340,190 357,195 364,198 C347,190 318,178 280,165 C248,153 218,143 216,140Z" fill="#b0b0b0" opacity="0.70"/>
-        <path d="M217,147 C248,163 288,180 330,194 C356,203 373,209 378,213 C358,202 324,188 282,173 C248,160 218,146 216,143Z" fill="#888" opacity="0.42"/>
-        <line x1="217" y1="144" x2="355" y2="192" stroke="#c0c0c0" stroke-width="0.4" opacity="0.32"/>
-        <!-- Central ring -->
-        <circle cx="190" cy="131" r="44" stroke="#c0c0c0" stroke-width="0.8" opacity="0.60"/>
-        <circle cx="190" cy="131" r="36" stroke="#c0c0c0" stroke-width="0.35" opacity="0.35"/>
-        <!-- Crosshair ticks -->
-        <line x1="141" y1="131" x2="149" y2="131" stroke="#c0c0c0" stroke-width="0.7" opacity="0.50"/>
-        <line x1="231" y1="131" x2="239" y2="131" stroke="#c0c0c0" stroke-width="0.7" opacity="0.50"/>
-        <line x1="190" y1="82"  x2="190" y2="90"  stroke="#c0c0c0" stroke-width="0.7" opacity="0.50"/>
-        <line x1="190" y1="172" x2="190" y2="180" stroke="#c0c0c0" stroke-width="0.7" opacity="0.50"/>
-        <circle cx="141" cy="131" r="1.4" fill="#888" opacity="0.45"/>
-        <circle cx="239" cy="131" r="1.4" fill="#888" opacity="0.45"/>
-        <circle cx="190" cy="82"  r="1.4" fill="#888" opacity="0.45"/>
-        <circle cx="190" cy="180" r="1.4" fill="#888" opacity="0.45"/>
-        <!-- Stylised A monogram -->
-        <path d="M190,100 L204,163 L198,163 L190,136 L182,163 L176,163 Z" fill="#d0d0d0"/>
-        <rect x="183" y="147" width="14" height="1.8" fill="#d0d0d0" rx="0.4"/>
-      </svg>
-      <div id="l-text">AUROLIX</div>
-    </div>
+    <canvas id="loader-canvas"></canvas>
   </div>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#hero" class="nav-logo">AUROLIX</a>
-    <ul class="nav-links">
-      <li><a href="#collection">Collection</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="hamburger" id="hamburger" aria-label="メニューを開く">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
-
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#collection" class="menu-close">Collection</a>
-    <a href="#about" class="menu-close">About</a>
-    <a href="#contact" class="menu-close">Contact</a>
-  </div>
+  <!-- NAVIGATION -->
+  <header>
+    <nav>
+      <a href="#collection">COLLECTION</a>
+      <a href="#about">ABOUT</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </header>
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-noise"></div>
-    <div class="hero-eyebrow">Dark Luxury — SS 2026</div>
-    <h1 class="hero-title">AUROLIX</h1>
-    <p class="hero-sub">オーロリクス</p>
-    <div class="hero-line"></div>
-    <p class="hero-tagline">Where darkness meets luxury.</p>
-    <div class="hero-cta">
-      <a href="#collection" class="btn btn-outline">Collection</a>
-      <a href="#about" class="btn btn-ghost">Our Story</a>
-    </div>
+    <h1>AUROLIX</h1>
   </section>
 
   <!-- ABOUT -->
   <section id="about">
-    <div class="section-label">About</div>
-    <div class="about-inner reveal">
-      <p class="about-body">
-        黒、白、銀——<br>
-        <strong>AUROLIX</strong> は、ダークラグジュアリーの美学と<br>
-        ストリートの反骨精神が交差する場所に生まれた。<br><br>
-        <em>纏うのは、光ではなく影。</em>
-      </p>
-      <div class="about-values">
-        <div class="value-item">
-          <div class="value-dot"></div>
-          <div class="value-text">Dark Luxury</div>
-        </div>
-        <div class="value-item">
-          <div class="value-dot"></div>
-          <div class="value-text">Monochrome</div>
-        </div>
-        <div class="value-item">
-          <div class="value-dot"></div>
-          <div class="value-text">Rebel Spirit</div>
-        </div>
-      </div>
+    <h2>ABOUT</h2>
+    <div class="about-words">
+      <span>DISCIPLINE.</span>
+      <span>AMBITION.</span>
+      <span>IDENTITY.</span>
     </div>
   </section>
 
   <!-- COLLECTION -->
   <section id="collection">
-    <div class="section-label">Collection</div>
-    <div class="collection-grid reveal">
-      <div class="collection-item">
-        <span class="item-num">01</span>
-        <div class="item-overlay"></div>
-        <div class="item-icon">
-          <svg viewBox="0 0 24 24"><path d="M4 7l2-3h12l2 3"/><rect x="3" y="7" width="18" height="14" rx="1"/></svg>
-        </div>
-        <div class="item-name">T-Shirt</div>
-        <div class="item-coming">Coming Soon</div>
+    <h2>COLLECTION</h2>
+    <div class="collection-grid">
+      <div class="product">
+        <div class="product-image"></div>
+        <div class="product-name">PIECE 01</div>
+        <div class="product-price">— coming soon —</div>
       </div>
-      <div class="collection-item">
-        <span class="item-num">02</span>
-        <div class="item-overlay"></div>
-        <div class="item-icon">
-          <svg viewBox="0 0 24 24"><path d="M4 4l4-1h8l4 1v3l-3 1v11H7V8L4 7z"/></svg>
-        </div>
-        <div class="item-name">Hoodie</div>
-        <div class="item-coming">Coming Soon</div>
+      <div class="product">
+        <div class="product-image"></div>
+        <div class="product-name">PIECE 02</div>
+        <div class="product-price">— coming soon —</div>
       </div>
-      <div class="collection-item">
-        <span class="item-num">03</span>
-        <div class="item-overlay"></div>
-        <div class="item-icon">
-          <svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M6 8h12M6 13h12"/></svg>
-        </div>
-        <div class="item-name">Denim</div>
-        <div class="item-coming">Coming Soon</div>
+      <div class="product">
+        <div class="product-image"></div>
+        <div class="product-name">PIECE 03</div>
+        <div class="product-price">— coming soon —</div>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section id="contact">
-    <div class="section-label">Contact</div>
-    <div class="contact-inner reveal">
-      <p class="contact-tagline">
-        影に興味を持ったなら、<br>ここから始まる。
-      </p>
-      <div class="social-row">
-        <a href="#" class="social-link">Instagram</a>
-        <a href="#" class="social-link">X / Twitter</a>
-        <a href="#" class="social-link">Email</a>
-      </div>
+    <h2>CONTACT</h2>
+    <div class="contact-links">
+      <a href="#" target="_blank" rel="noopener">INSTAGRAM</a>
+      <a href="#" target="_blank" rel="noopener">X</a>
+      <a href="mailto:">EMAIL</a>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-copy">© 2026 AUROLIX. All rights reserved.</div>
-    <div class="footer-mark">A ✦ X</div>
+    <p>&copy; 2026 AUROLIX</p>
   </footer>
 
+  <!-- LOADER ANIMATION -->
   <script>
-    // LOADER v4 — ink drop cinematic
     (function () {
-      var loader = document.getElementById('loader');
-      var canvas = document.getElementById('c-main');
-      var lWrap  = document.getElementById('l-wrap');
-      var lText  = document.getElementById('l-text');
+      const loader = document.getElementById('loader');
+      const canvas = document.getElementById('loader-canvas');
+      if (!loader || !canvas) return;
 
-      var bail = setTimeout(function () { loader.style.display = 'none'; }, 10000);
+      const ctx = canvas.getContext('2d');
+      let W = 0, H = 0, DPR = 1;
 
-      if (!canvas || !canvas.getContext) { clearTimeout(bail); loader.style.display = 'none'; return; }
-      var ctx = canvas.getContext('2d');
-      if (!ctx) { clearTimeout(bail); loader.style.display = 'none'; return; }
-
-      // ── sizing ──
-      var W, H, cx, cy, maxR;
       function resize() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-        cx = W / 2; cy = H / 2;
-        maxR = Math.sqrt(cx * cx + cy * cy) + 80;
+        DPR = Math.max(1, window.devicePixelRatio || 1);
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width  = Math.max(1, Math.floor(W * DPR));
+        canvas.height = Math.max(1, Math.floor(H * DPR));
+        canvas.style.width  = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       }
       resize();
       window.addEventListener('resize', resize);
 
-      // ── timing (ms) ──
-      var T_DROP  =  600;   // drop starts falling
-      var T_HIT   = 1400;   // drop hits water surface
-      var T_INK   = 1400;   // ink spread begins
-      var T_INK_E = 3400;   // ink fully covers canvas (2 sec spread)
-      var T_LOGO  = 3650;   // logo fades in
-      var T_TEXT  = 4500;   // text fades in
-      var T_DONE  = 6000;   // loader fades out
+      // ─── Preload logo image ───
+      const logoImg = new Image();
+      let logoLoaded = false;
+      logoImg.onload = function () { logoLoaded = true; };
+      logoImg.onerror = function () { logoLoaded = false; };
+      logoImg.src = 'AUROLIX_LOGO.jpg';
 
-      // ── value noise ──
-      function hashNoise(x, y) {
-        var n = ((Math.floor(x) * 127 + Math.floor(y) * 311) | 0) & 0xffff;
-        n = ((n ^ (n >> 5)) * 0x45d9f3b) & 0xffff;
-        return n / 0xffff;
+      // ─── Phase durations (ms) ───
+      const T = {
+        INTRO:   1200,  // white water with subtle idle ripples
+        DROP:     900,  // ink drop falling from top
+        IMPACT:  1400,  // splash + expanding ripples
+        SPREAD:  1500,  // ink fills the entire screen
+        LOGO:    1500,  // logo image fades in (1.5s)
+        FADEOUT:  800   // fade loader away to reveal site
+      };
+      const ORDER = ['INTRO', 'DROP', 'IMPACT', 'SPREAD', 'LOGO', 'FADEOUT'];
+      const start = {};
+      let acc = 0;
+      ORDER.forEach(k => { start[k] = acc; acc += T[k]; });
+      const TOTAL = acc;
+
+      // Idle ripples on the white surface
+      const idleRipples = [];
+      for (let i = 0; i < 5; i++) {
+        idleRipples.push({
+          x: Math.random(),
+          y: Math.random(),
+          delay: Math.random() * 1200,
+          duration: 1400 + Math.random() * 700,
+          maxR: 50 + Math.random() * 70
+        });
       }
-      function valNoise(x, y) {
-        var xi = Math.floor(x), yi = Math.floor(y);
-        var xf = x - xi, yf = y - yi;
-        var fade = function(v) { return v * v * (3 - 2 * v); };
-        var lrp  = function(a, b, v) { return a + (b - a) * v; };
-        return lrp(lrp(hashNoise(xi,   yi),   hashNoise(xi+1, yi),   fade(xf)),
-                   lrp(hashNoise(xi,   yi+1), hashNoise(xi+1, yi+1), fade(xf)), fade(yf));
-      }
 
-      function easeIn2(t)    { return t * t; }
-      function easeInOut3(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+      // Easings
+      const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+      const easeInQuad   = t => t * t;
+      const easeInOutCubic = t =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-      // ── Phase 0: calm white water surface ──
-      // Multiple ambient ripple origins scattered around center
-      var RIPPLES = [
-        { rx: 0,     ry: 0,     phase: 0    },
-        { rx:-0.22,  ry: 0.07,  phase: 0.25 },
-        { rx: 0.28,  ry:-0.09,  phase: 0.50 },
-        { rx:-0.11,  ry:-0.16,  phase: 0.75 },
-      ];
-
-      function drawWater(el) {
-        ctx.fillStyle = '#f2f2f2';
+      function drawWhiteSurface() {
+        ctx.fillStyle = '#f0f0f0';
         ctx.fillRect(0, 0, W, H);
+      }
 
-        // subtle horizontal shimmer at water level
-        var g = ctx.createLinearGradient(0, cy - 80, 0, cy + 80);
-        g.addColorStop(0,    'rgba(190,210,230,0)');
-        g.addColorStop(0.5,  'rgba(190,210,230,0.045)');
-        g.addColorStop(1,    'rgba(190,210,230,0)');
-        ctx.fillStyle = g;
-        ctx.fillRect(0, cy - 80, W, 160);
-
-        // ambient ripple rings from multiple centers
-        for (var c = 0; c < RIPPLES.length; c++) {
-          var rp = RIPPLES[c];
-          var ox = cx + rp.rx * W;
-          var oy = cy + rp.ry * H;
-          for (var i = 0; i < 3; i++) {
-            var ph = (((el * 0.00043 + rp.phase + i / 3) % 1) + 1) % 1;
-            var r  = Math.max(0, ph * Math.min(W, H) * 0.40);
-            var a  = (1 - ph) * (1 - ph) * 0.075;
-            if (a < 0.003) continue;
-            ctx.beginPath();
-            ctx.arc(ox, oy, r, 0, Math.PI * 2);
-            ctx.strokeStyle = 'rgba(90,130,165,' + a.toFixed(3) + ')';
+      function drawIdleRipples(localT) {
+        for (let i = 0; i < idleRipples.length; i++) {
+          const r = idleRipples[i];
+          const rt = (localT - r.delay) / r.duration;
+          if (rt > 0 && rt < 1) {
+            const radius = Math.max(0, rt * r.maxR);
+            const opacity = Math.max(0, 0.22 * (1 - rt));
+            ctx.strokeStyle = 'rgba(160, 160, 160, ' + opacity + ')';
             ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(r.x * W, r.y * H, radius, 0, Math.PI * 2);
             ctx.stroke();
           }
         }
       }
 
-      // ── Phase 1: ink teardrop falling with gravity ──
-      function drawDrop(el) {
-        var t  = Math.min((el - T_DROP) / (T_HIT - T_DROP), 1);
-        var tg = easeIn2(t);  // gravity acceleration
+      function drawLogo(cx, cy, opacity) {
+        if (!logoLoaded) return;
 
-        // off-screen top (-60) → water surface (cy)
-        var vy = -60 + (cy + 60) * tg;
+        const isMobile = W <= 768;
+        const targetW  = W * (isMobile ? 0.70 : 0.40);
+        const nw = logoImg.naturalWidth  || 1;
+        const nh = logoImg.naturalHeight || 1;
+        const drawW = targetW;
+        const drawH = drawW * (nh / nw);
 
-        // dissolve into splash at impact
-        var alpha = t < 0.88 ? 1 : Math.max(0, 1 - (t - 0.88) / 0.12);
-        if (alpha <= 0) return;
-
-        ctx.save();
-        ctx.globalAlpha = alpha;
-
-        // elongate with speed (faster → more stretched)
-        var dr = 10;
-        var dh = 24 + t * 14;
-
-        ctx.fillStyle = '#0a0a0a';
-        ctx.beginPath();
-        ctx.moveTo(cx, vy - dh);
-        ctx.bezierCurveTo(cx + dr*1.15, vy - dh*0.48, cx + dr, vy,      cx, vy + dr*0.6);
-        ctx.bezierCurveTo(cx - dr,      vy,            cx - dr*1.15, vy - dh*0.48, cx, vy - dh);
-        ctx.fill();
-
-        // specular highlight
-        ctx.fillStyle = 'rgba(255,255,255,0.20)';
-        ctx.beginPath();
-        ctx.ellipse(cx - 3.2, vy - dh * 0.56, 2, 4.5, -0.28, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
+        ctx.globalAlpha = Math.max(0, Math.min(1, opacity));
+        ctx.drawImage(
+          logoImg,
+          cx - drawW / 2,
+          cy - drawH / 2,
+          drawW,
+          drawH
+        );
+        ctx.globalAlpha = 1;
       }
 
-      // ── Phase 2: impact rings (staggered launch) ──
-      var rings = [], impacted = false;
-      function triggerImpact(now) {
-        if (impacted) return;
-        impacted = true;
-        for (var i = 0; i < 8; i++) {
-          rings.push({
-            born: now + i * 55,
-            maxR: 22 + i * 30,
-            a0:   0.72 - i * 0.07,
-            dur:  1100 + i * 130,
-          });
-        }
-      }
-      function drawRings(now) {
-        for (var i = 0; i < rings.length; i++) {
-          var r   = rings[i];
-          var age = Math.min(Math.max((now - r.born) / r.dur, 0), 1);
-          if (age <= 0) continue;
-          var a   = r.a0 * (1 - age) * (1 - age);
-          if (a < 0.003) continue;
-          ctx.beginPath();
-          ctx.arc(cx, cy, age * r.maxR, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(0,0,0,' + a.toFixed(3) + ')';
-          ctx.lineWidth = Math.max(0.3, 2.5 - age * 2.2);
-          ctx.stroke();
-        }
-      }
+      const startTime = performance.now();
 
-      // ── Phase 3: organic ink spread ──
-      var inkT0 = null;
-      var inkBlobs = [];
-      var inkTendrils = [];
-
-      // seed directional tendrils (protrusions beyond the main blob)
-      for (var ti = 0; ti < 9; ti++) {
-        inkTendrils.push({
-          ang:   (ti / 9) * Math.PI * 2 + (Math.random() - 0.5) * 0.55,
-          reach: 0.72 + Math.random() * 0.55,
-          width: 0.065 + Math.random() * 0.075,
-        });
-      }
-
-      function drawInk(now) {
-        if (!inkT0) inkT0 = now;
-        var t  = Math.min((now - inkT0) / (T_INK_E - T_INK), 1);
-        var e  = easeInOut3(t);
-        var bR = e * maxR;
-
-        // white base + impact rings
-        ctx.fillStyle = '#f2f2f2';
-        ctx.fillRect(0, 0, W, H);
-        drawRings(now);
-
-        // main noise-distorted ink blob
-        var SEG = 120, FRQ = 3.8, AMP = 0.21;
-        ctx.fillStyle = '#080808';
-        ctx.beginPath();
-        for (var i = 0; i <= SEG; i++) {
-          var ang  = (i / SEG) * Math.PI * 2;
-          var nv   = valNoise(Math.cos(ang)*FRQ + t*3.5, Math.sin(ang)*FRQ + t*3.5);
-          var noise = (nv*2-1) * AMP * (1 - e*0.68);
-
-          // tendril boost at seeded directions
-          var boost = 0;
-          for (var j = 0; j < inkTendrils.length; j++) {
-            var td = inkTendrils[j];
-            var da = Math.abs(((ang - td.ang + 3*Math.PI) % (2*Math.PI)) - Math.PI);
-            if (da < td.width * Math.PI) {
-              var tf = 1 - da / (td.width * Math.PI);
-              boost += tf * tf * 0.21 * td.reach * Math.max(0, 1 - e*0.82);
-            }
-          }
-
-          var rr = bR * (1 + noise + boost);
-          var px = cx + Math.cos(ang) * rr;
-          var py = cy + Math.sin(ang) * rr;
-          if (i === 0) ctx.moveTo(px, py);
-          else         ctx.lineTo(px, py);
-        }
-        ctx.closePath();
-        ctx.fill();
-
-        // satellite ink drips ahead of the main front
-        if (t < 0.85 && Math.random() < 0.26) {
-          var sAng = Math.random() * Math.PI * 2;
-          var dist = bR * (0.4 + Math.random() * 0.8);
-          inkBlobs.push({
-            x:    cx + Math.cos(sAng) * dist,
-            y:    cy + Math.sin(sAng) * dist,
-            born: now,
-            spd:  20 + Math.random() * 40,
-            maxR: 6 + Math.random() * 18,
-          });
-        }
-        for (var k = inkBlobs.length - 1; k >= 0; k--) {
-          var b  = inkBlobs[k];
-          var bd = Math.sqrt((b.x-cx)*(b.x-cx) + (b.y-cy)*(b.y-cy));
-          if (bd < bR - b.maxR*0.6) { inkBlobs.splice(k, 1); continue; }
-          var br = Math.min(b.maxR, (now - b.born) * 0.001 * b.spd);
-          if (br < 0.5) continue;
-          ctx.beginPath();
-          ctx.arc(b.x, b.y, br, 0, Math.PI * 2);
-          ctx.fillStyle = '#080808';
-          ctx.fill();
-        }
-      }
-
-      // ── main loop ──
-      var go = true, logoShown = false, textShown = false;
-      var T0 = performance.now();
-
-      function loop(now) {
-        if (!go) return;
-        var el = now - T0;
+      function frame(now) {
+        const t = now - startTime;
+        const cx = W / 2;
+        const cy = H / 2;
 
         ctx.clearRect(0, 0, W, H);
 
-        if (el < T_INK) {
-          // water + drop + rings
-          drawWater(el);
-          if (el >= T_DROP) drawDrop(el);
-          if (el >= T_HIT)  { triggerImpact(now); drawRings(now); }
-        } else if (el < T_INK_E) {
-          // organic ink spread
-          triggerImpact(now);
-          drawInk(now);
-        } else {
-          // fully black — stop drawing canvas
+        if (t < start.DROP) {
+          // ── PHASE 1: white water + subtle ripples ──
+          drawWhiteSurface();
+          drawIdleRipples(t);
+        }
+        else if (t < start.IMPACT) {
+          // ── PHASE 2: ink drop falling ──
+          drawWhiteSurface();
+          drawIdleRipples(t);
+
+          const localT = (t - start.DROP) / T.DROP;
+          const eased  = easeInQuad(localT);
+          const dropY  = -20 + eased * (cy + 20);
+          const dropR  = Math.max(0, 5 + localT * 5);
+
+          // Trailing tail (stretched as gravity accelerates)
+          if (localT > 0.25) {
+            const tailLen = 40 * easeInQuad(localT);
+            const grad = ctx.createLinearGradient(cx, dropY - tailLen, cx, dropY);
+            grad.addColorStop(0, 'rgba(8, 8, 8, 0)');
+            grad.addColorStop(1, 'rgba(8, 8, 8, 0.85)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.moveTo(cx - dropR * 0.35, dropY);
+            ctx.lineTo(cx, dropY - tailLen);
+            ctx.lineTo(cx + dropR * 0.35, dropY);
+            ctx.closePath();
+            ctx.fill();
+          }
+
+          // Drop head
+          ctx.fillStyle = '#080808';
+          ctx.beginPath();
+          ctx.arc(cx, dropY, dropR, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        else if (t < start.SPREAD) {
+          // ── PHASE 3: impact + ripples + small puddle ──
+          drawWhiteSurface();
+
+          const localT = (t - start.IMPACT) / T.IMPACT;
+
+          // Multiple expanding rings
+          const maxRingR = Math.max(W, H) * 0.7;
+          for (let i = 0; i < 5; i++) {
+            const offset = i * 0.13;
+            const rt = localT - offset;
+            if (rt > 0 && rt < 1) {
+              const radius = Math.max(0, easeOutCubic(rt) * maxRingR);
+              const opacity = Math.max(0, 0.45 * (1 - rt));
+              ctx.strokeStyle = 'rgba(40, 40, 40, ' + opacity + ')';
+              ctx.lineWidth = Math.max(0.5, 1.5 * (1 - rt));
+              ctx.beginPath();
+              ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+              ctx.stroke();
+            }
+          }
+
+          // Splash crown (small droplets bouncing up at first)
+          if (localT < 0.45) {
+            const splashT = localT / 0.45;
+            const splashR = Math.max(0, 8 + splashT * 30);
+            const droplets = 6;
+            for (let i = 0; i < droplets; i++) {
+              const angle = (i / droplets) * Math.PI * 2;
+              const dist = splashR;
+              const dx = cx + Math.cos(angle) * dist;
+              const dy = cy + Math.sin(angle) * dist - splashT * 12;
+              const dr = Math.max(0, 2.5 * (1 - splashT));
+              ctx.fillStyle = 'rgba(8, 8, 8, ' + (0.85 * (1 - splashT)) + ')';
+              ctx.beginPath();
+              ctx.arc(dx, dy, dr, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+
+          // Central ink puddle growing
+          const puddleR = Math.max(0, 6 + easeOutCubic(localT) * 90);
+          ctx.fillStyle = '#080808';
+          ctx.beginPath();
+          ctx.arc(cx, cy, puddleR, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        else if (t < start.LOGO) {
+          // ── PHASE 4: ink spreads to fill the screen ──
+          drawWhiteSurface();
+
+          const localT = (t - start.SPREAD) / T.SPREAD;
+          const eased  = easeInOutCubic(localT);
+
+          const maxR = Math.sqrt(W * W + H * H) / 2 + 80;
+          const r = Math.max(0, 96 + eased * maxR);
+
+          ctx.fillStyle = '#080808';
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        else if (t < start.FADEOUT) {
+          // ── PHASE 5: logo emerges from black ──
           ctx.fillStyle = '#080808';
           ctx.fillRect(0, 0, W, H);
-        }
 
-        if (el >= T_LOGO && !logoShown) {
-          logoShown = true;
-          lWrap.style.transition = 'opacity 1.5s ease';
-          lWrap.style.opacity = '1';
+          const localT = (t - start.LOGO) / T.LOGO;
+          const opacity = easeOutCubic(localT);
+
+          drawLogo(cx, cy, opacity);
         }
-        if (el >= T_TEXT && !textShown) {
-          textShown = true;
-          lText.style.transition = 'opacity 1.3s ease, transform 1.3s ease';
-          lText.style.opacity    = '1';
-          lText.style.transform  = 'translateY(0)';
+        else if (t < TOTAL) {
+          // ── PHASE 6: fade entire loader away ──
+          ctx.fillStyle = '#080808';
+          ctx.fillRect(0, 0, W, H);
+          drawLogo(cx, cy, 1);
+
+          const localT = (t - start.FADEOUT) / T.FADEOUT;
+          loader.style.opacity = String(1 - localT);
         }
-        if (el >= T_DONE) {
-          go = false;
-          clearTimeout(bail);
-          loader.style.transition = 'opacity 1.1s ease';
-          loader.style.opacity = '0';
-          setTimeout(function () { loader.style.display = 'none'; }, 1100);
+        else {
+          // ── DONE ──
+          document.body.classList.remove('loader-active');
+          if (loader.parentNode) loader.parentNode.removeChild(loader);
+          window.removeEventListener('resize', resize);
           return;
         }
 
-        requestAnimationFrame(loop);
+        requestAnimationFrame(frame);
       }
 
-      requestAnimationFrame(loop);
+      requestAnimationFrame(frame);
     })();
-
-    // hamburger
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('open');
-    });
-    document.querySelectorAll('.menu-close').forEach(el => {
-      el.addEventListener('click', () => mobileMenu.classList.remove('open'));
-    });
-
-    // scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-      });
-    }, { threshold: 0.15 });
-    reveals.forEach(el => observer.observe(el));
   </script>
+
 </body>
 </html>

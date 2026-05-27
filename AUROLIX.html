@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)file:///C:/Users/sorat/OneDrive/AUROLIX/index.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUROLIX</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="./AUROLIX_files/css2" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black: #080808;
+      --silver: #c8c8c8;
+      --silver-dim: #888;
+      --silver-ghost: #444;
+      --border: #1e1e1e;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--silver);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.3s ease, color 0.3s ease;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+    }
+
+    section {
+      padding: 160px 8vw;
+    }
+
+    /* ─── NAVIGATION ─── */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(8, 8, 8, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      padding: 28px 8vw;
+    }
+
+    nav a {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      color: var(--silver-dim);
+    }
+
+    nav a:hover {
+      color: var(--silver);
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 8vw;
+      position: relative;
+    }
+
+    #hero h1 {
+      font-size: clamp(64px, 12vw, 180px);
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      color: var(--silver);
+      text-align: center;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    #about h2 {
+      font-size: 14px;
+      letter-spacing: 0.4em;
+      color: var(--silver-dim);
+      margin-bottom: 80px;
+    }
+
+    .about-words {
+      display: flex;
+      justify-content: center;
+      gap: clamp(40px, 8vw, 120px);
+      flex-wrap: wrap;
+    }
+
+    .about-words span {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(20px, 2.5vw, 32px);
+      letter-spacing: 0.3em;
+      color: var(--silver);
+    }
+
+    /* ─── COLLECTION ─── */
+    #collection {
+      border-top: 1px solid var(--border);
+    }
+
+    #collection h2 {
+      font-size: 14px;
+      letter-spacing: 0.4em;
+      color: var(--silver-dim);
+      text-align: center;
+      margin-bottom: 100px;
+    }
+
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .product {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-image {
+      aspect-ratio: 3 / 4;
+      background: #0d0d0d;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .product-name {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      color: var(--silver);
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      font-size: 14px;
+      color: var(--silver-dim);
+      font-style: italic;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    #contact h2 {
+      font-size: 14px;
+      letter-spacing: 0.4em;
+      color: var(--silver-dim);
+      margin-bottom: 80px;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 0.3em;
+      color: var(--silver);
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--silver-ghost);
+    }
+
+    .contact-links a:hover {
+      color: var(--silver);
+      border-bottom-color: var(--silver);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 8vw;
+      text-align: center;
+    }
+
+    footer p {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--silver-ghost);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      section {
+        padding: 100px 6vw;
+      }
+
+      nav {
+        gap: 32px;
+        padding: 20px 6vw;
+      }
+
+      nav a {
+        font-size: 10px;
+        letter-spacing: 0.2em;
+      }
+
+      .collection-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .contact-links {
+        flex-direction: column;
+        gap: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header>
+    <nav>
+      <a href="file:///C:/Users/sorat/OneDrive/AUROLIX/index.html#collection">COLLECTION</a>
+      <a href="file:///C:/Users/sorat/OneDrive/AUROLIX/index.html#about">ABOUT</a>
+      <a href="file:///C:/Users/sorat/OneDrive/AUROLIX/index.html#contact">CONTACT</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero">
+    <h1>AUROLIX</h1>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <h2>ABOUT</h2>
+    <div class="about-words">
+      <span>DISCIPLINE.</span>
+      <span>AMBITION.</span>
+      <span>IDENTITY.</span>
+    </div>
+  </section>
+
+  <!-- COLLECTION -->
+  <section id="collection">
+    <h2>COLLECTION</h2>
+    <div class="collection-grid">
+      <div class="product">
+        <div class="product-image"></div>
+        <div class="product-name">PIECE 01</div>
+        <div class="product-price">— coming soon —</div>
+      </div>
+      <div class="product">
+        <div class="product-image"></div>
+        <div class="product-name">PIECE 02</div>
+        <div class="product-price">— coming soon —</div>
+      </div>
+      <div class="product">
+        <div class="product-image"></div>
+        <div class="product-name">PIECE 03</div>
+        <div class="product-price">— coming soon —</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>CONTACT</h2>
+    <div class="contact-links">
+      <a href="file:///C:/Users/sorat/OneDrive/AUROLIX/index.html#" target="_blank" rel="noopener">INSTAGRAM</a>
+      <a href="file:///C:/Users/sorat/OneDrive/AUROLIX/index.html#" target="_blank" rel="noopener">X</a>
+      <a href="mailto:">EMAIL</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 AUROLIX</p>
+  </footer>
+
+
+
+</body></html>

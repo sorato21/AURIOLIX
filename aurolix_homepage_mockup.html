@@ -1,0 +1,111 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap');
+  .aurolix-wrap { background: #0a0a0a; color: #e0e0e0; font-family: 'Cormorant Garamond', serif; min-height: 600px; overflow: hidden; }
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 32px; border-bottom: 0.5px solid #333; }
+  .nav-logo { font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: 6px; color: #c8c8c8; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links span { font-size: 11px; letter-spacing: 3px; color: #888; cursor: pointer; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links span:hover { color: #c8c8c8; }
+  .hero { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 32px 50px; text-align: center; border-bottom: 0.5px solid #1a1a1a; }
+  .hero-eyebrow { font-size: 10px; letter-spacing: 5px; color: #555; text-transform: uppercase; margin-bottom: 24px; }
+  .hero-title { font-family: 'Cinzel', serif; font-size: 42px; font-weight: 700; letter-spacing: 10px; color: #d4d4d4; margin: 0 0 8px; text-shadow: 0 0 40px rgba(200,200,200,0.08); }
+  .hero-subtitle { font-size: 13px; letter-spacing: 4px; color: #555; text-transform: uppercase; margin-bottom: 32px; }
+  .hero-tagline { font-size: 15px; font-style: italic; color: #777; letter-spacing: 1px; margin-bottom: 40px; }
+  .hero-cta { display: flex; gap: 16px; }
+  .btn-primary { padding: 10px 28px; border: 0.5px solid #888; background: transparent; color: #c8c8c8; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.3s; font-family: 'Cinzel', serif; }
+  .btn-primary:hover { background: #1a1a1a; border-color: #c8c8c8; }
+  .btn-secondary { padding: 10px 28px; border: 0.5px solid #333; background: transparent; color: #555; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.3s; font-family: 'Cinzel', serif; }
+  .btn-secondary:hover { color: #888; border-color: #555; }
+  .ink-divider { width: 1px; height: 40px; background: linear-gradient(to bottom, transparent, #444, transparent); margin: 0 auto 0; }
+  .section { padding: 48px 32px; border-bottom: 0.5px solid #1a1a1a; }
+  .section-label { font-size: 9px; letter-spacing: 5px; color: #444; text-transform: uppercase; margin-bottom: 32px; text-align: center; }
+  .about-text { max-width: 480px; margin: 0 auto; text-align: center; font-size: 15px; line-height: 1.9; color: #777; font-style: italic; }
+  .about-accent { color: #aaa; font-style: normal; letter-spacing: 1px; }
+  .collection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #1a1a1a; }
+  .collection-item { background: #0d0d0d; aspect-ratio: 3/4; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: background 0.3s; position: relative; overflow: hidden; }
+  .collection-item:hover { background: #111; }
+  .item-placeholder { width: 40px; height: 40px; border: 0.5px solid #2a2a2a; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+  .item-placeholder i { font-size: 16px; color: #333; }
+  .item-label { font-size: 9px; letter-spacing: 3px; color: #333; text-transform: uppercase; }
+  .item-num { position: absolute; top: 12px; left: 12px; font-size: 9px; color: #2a2a2a; letter-spacing: 2px; }
+  .contact-section { padding: 48px 32px; text-align: center; }
+  .contact-title { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 5px; color: #555; text-transform: uppercase; margin-bottom: 24px; }
+  .social-links { display: flex; justify-content: center; gap: 32px; }
+  .social-link { font-size: 10px; letter-spacing: 3px; color: #444; text-transform: uppercase; cursor: pointer; transition: color 0.2s; text-decoration: none; border-bottom: 0.5px solid transparent; padding-bottom: 2px; }
+  .social-link:hover { color: #888; border-bottom-color: #555; }
+  .footer { padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; border-top: 0.5px solid #1a1a1a; }
+  .footer-copy { font-size: 9px; letter-spacing: 2px; color: #333; }
+  .logo-symbol { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; color: #2a2a2a; }
+  .ink-dot { width: 2px; height: 2px; background: #555; border-radius: 50%; margin: 16px auto; }
+</style>
+
+<div class="aurolix-wrap">
+  <nav class="nav">
+    <div class="nav-logo">AUROLIX</div>
+    <div class="nav-links">
+      <span>Collection</span>
+      <span>About</span>
+      <span>Contact</span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Dark Luxury — SS 2026</div>
+    <div class="hero-title">AUROLIX</div>
+    <div class="hero-subtitle">オーロリクス</div>
+    <div class="ink-dot"></div>
+    <div class="hero-tagline">Where darkness meets luxury.</div>
+    <div class="hero-cta">
+      <button class="btn-primary">Collection</button>
+      <button class="btn-secondary">Our Story</button>
+    </div>
+  </div>
+
+  <div class="ink-divider" style="margin-top:0;"></div>
+
+  <section class="section">
+    <div class="section-label">About</div>
+    <div class="about-text">
+      黒、白、銀——<br>
+      <span class="about-accent">AUROLIX</span> は、ダークラグジュアリーの美学と<br>
+      ストリートの反骨精神が交差する場所に生まれた。<br><br>
+      <em>纏うのは、光ではなく影。</em>
+    </div>
+  </section>
+
+  <section class="section" style="padding: 0;">
+    <div class="section-label" style="padding-top: 48px;">Collection</div>
+    <div class="collection-grid">
+      <div class="collection-item">
+        <span class="item-num">01</span>
+        <div class="item-placeholder"><i class="ti ti-shirt" aria-hidden="true"></i></div>
+        <div class="item-label">T-Shirt</div>
+      </div>
+      <div class="collection-item">
+        <span class="item-num">02</span>
+        <div class="item-placeholder"><i class="ti ti-shirt" aria-hidden="true"></i></div>
+        <div class="item-label">Hoodie</div>
+      </div>
+      <div class="collection-item">
+        <span class="item-num">03</span>
+        <div class="item-placeholder"><i class="ti ti-shirt" aria-hidden="true"></i></div>
+        <div class="item-label">Denim</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="contact-section">
+    <div class="contact-title">Contact & Follow</div>
+    <div class="social-links">
+      <span class="social-link">Instagram</span>
+      <span class="social-link">X / Twitter</span>
+      <span class="social-link">Email</span>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-copy">© 2026 AUROLIX. All rights reserved.</div>
+    <div class="logo-symbol">A✦</div>
+  </footer>
+</div>
